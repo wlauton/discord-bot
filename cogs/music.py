@@ -59,9 +59,7 @@ class Music(commands.Cog):
                 duration = self.parse_duration(info['duration'])
                 thumbnail = info['thumbnail']
             
-        embed = (discord.Embed(title='🎵 Now playing :',
-                               description=f'{title}',
-                               color=discord.Color.blue())
+        embed = (discord.Embed(title='🎵 Now playing :', description=f'{title}', color=discord.Color.blue())
                  .add_field(name='Duration', value=duration)
                  .add_field(name='Requested by', value=ctx.message.author.display_name)
                  .add_field(name='Uploader', value=f'[{uploader}]({uploader_url})')
