@@ -1,4 +1,4 @@
-Bot's commands :
+All the current bot's commands :
 
 - Chat :<br>
 !clear [x] → clears the [x] previous messages<br>
