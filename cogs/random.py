@@ -3,7 +3,6 @@ from discord.ext import commands
 
 import random
 
-
 class random(commands.Cog):
     
     def __init__(self, bot):
