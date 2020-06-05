@@ -31,4 +31,4 @@ class RPG(commands.Cog):
             await ctx.send(f'🎲 You rolled a {number} !')
 
 def setup(bot):
-    bot.add_cog(JDR(bot))
+    bot.add_cog(RPG(bot))
