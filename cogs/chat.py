@@ -16,7 +16,7 @@ class chat(commands.Cog):
             limit = int(limit) + 1
             await ctx.channel.purge(limit=limit)
     
-    @commands.command(brief='!help [category/blank]', description="Displays an help message")
+    @commands.command(brief='!help [category/none]', description="Displays an help message")
     async def help(self, ctx, *c):
         if not c:
             await ctx.channel.purge(limit=1)
