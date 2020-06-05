@@ -17,4 +17,4 @@ Libraries' version :
 - wheel → 0.34.2
 - FFmpeg → git-2020-05-23-26b4509
 
-NB : This bot doesn't downloads the videos!
+NB : This bot doesn't downloads the videos !
