@@ -15,6 +15,6 @@ Libraries' version :
 - lxml → 4.5.1
 - PyNaCl → 1.3.0
 - wheel → 0.34.2
-- FFmpeg → git-2020-05-23-26b4509
+- FFmpeg → 4.2.3
 
 NB : This bot doesn't downloads the videos !
