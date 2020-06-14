@@ -17,3 +17,5 @@ All the current bot's commands :
 !pause → pauses or resumes the song<br>
 !skip → skips the song<br>
 !leave → disconnects the bot from it's channel<br>
+
+PS : !clear can now be only used in channels nammed "bot" (Optionnal, you can change this by deleting lines 16, 18 and 19 in chat.py)
