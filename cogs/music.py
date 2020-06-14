@@ -22,13 +22,15 @@ class Music(commands.Cog):
         hour = minutes//60
         day = hour//24
         
-        if day != 0:
-            result.append(f"{day}j ")
-        if hour != 0:
-            result.append(f"{hour}h ")
-        if minutes != 0:
-            result.append(f"{minutes}min ")
-        result.append(f"{seconds}s ")
+        def parse_duration(self, duration):
+        result, suffix = [], ['s', 'min', 'h', 'j']
+        seconds = duration%60
+        minutes = duration//60
+        hour = minutes//60
+        day = hour//24
+        
+        for y, x in zip([x for x in [seconds, minutes, hour, day] if x != 0], suffix):
+            result.append(str(y) + x)
         return "".join(result)
     
     def search(self, ctx, arg):
