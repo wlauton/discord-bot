@@ -13,8 +13,11 @@ class chat(commands.Cog):
         except:
             await ctx.send('❌ You must input an integer !')
         else:
-            limit = int(limit) + 1
-            await ctx.channel.purge(limit=limit)
+            if str(ctx.channel) == 'bot':
+                limit = int(limit) + 1
+                await ctx.channel.purge(limit=limit)
+            else:
+                await ctx.send('❌ Wrong channel ! Must be used in "bot" channel !')
     
     @commands.command(brief='!help [category/none]', description="Displays an help message")
     async def help(self, ctx, *c):
