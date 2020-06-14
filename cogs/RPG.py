@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-import random
+from random import randint
 
 class RPG(commands.Cog):
     
@@ -27,7 +27,7 @@ class RPG(commands.Cog):
         except:
             await ctx.send('❌ You must input an integer !')
         else:
-            number = random.randint(1, int(arg))
+            number = randint(1, int(arg))
             await ctx.send(f'🎲 You rolled a {number} !')
 
 def setup(bot):
