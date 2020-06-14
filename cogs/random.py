@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-import random
+from random import choice
 
 class random(commands.Cog):
     
@@ -10,7 +10,7 @@ class random(commands.Cog):
     
     @commands.command(brief='!toss [heads/tails]', description='Make a coin toss against the bot')
     async def pof(self, ctx, arg):
-        piece = random.choice(['Tails', 'Heads'])
+        piece = choice(['Tails', 'Heads'])
         if arg.upper() == 'PILE' or arg.upper() == 'TAILS':
             if arg.upper() == piece.upper():
                 await ctx.send(f':white_check_mark: {piece} ! You won.')
@@ -32,7 +32,7 @@ class random(commands.Cog):
             except:
                 pass
         if arg == 'random':
-            user = random.choice(online_members).mention
+            user = choice(online_members).mention
             await ctx.send(f'Hey {user} !')
         elif user:
             await ctx.send(f'Hey {user.mention} !')
