@@ -18,3 +18,4 @@ Libraries' version :
 - FFmpeg → 4.2.3
 
 NB : This bot doesn't downloads the videos !
+     /!\ Add FFmpeg to path when you download it (https://www.youtube.com/watch?v=a_KqycyErd8&t=2s)
