@@ -109,7 +109,7 @@ class Music(commands.Cog):
     async def queue(self, ctx):
         channel = ctx.message.author.voice.channel
         voice = get(self.bot.voice_clients, guild=ctx.guild)
-        embed = discord.Embed(color=discord.Color.blue(), title="⏱️ Liste d'attente :")
+        embed = discord.Embed(color=discord.Color.blue(), title="⏱️ Queue :")
         if voice and voice.is_playing():
             for i in self.song_queue:
                 if self.song_queue.index(i) == 0:
