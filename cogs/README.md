@@ -3,6 +3,7 @@ All the current bot's commands:
 - Chat :<br>
 !clear [x] → clears the [x] previous messages<br>
 !help [category/blank] → shows an help message<br>
+!xp → shows your level and xp
 
 - JDR :<br>
 !roll [x] → simulates a dice roll<br>
