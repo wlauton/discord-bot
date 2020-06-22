@@ -16,9 +16,9 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    print(f'\n\nConnecté en tant que : {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
+    print(f'\n\nConnected as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
     await bot.change_presence(activity=discord.Game(name='!help'))
-    print(f'Le Bot est opérationnel !')
+    print(f'Bot is ready!')
 
 
-bot.run('...', bot=True, reconnect=True)
+bot.run('TOKEN', bot=True, reconnect=True)
