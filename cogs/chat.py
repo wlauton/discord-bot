@@ -18,25 +18,25 @@ class chat(commands.Cog):
         with open('members.json', 'w') as file:
             file.write(dumps(members, indent=2))
 
-    @commands.command(brief='!clear [x]', description='Supprime les [x] derniers messages', aliases=['delete', 'purge'])
+    @commands.command(brief='!clear [x]', description='Deletes the [x] previous messages', aliases=['delete', 'purge'])
     async def clear(self, ctx, limit):
         try:
             float(limit)
         except:
-            await ctx.send('❌ Vous devez entrer un nombre entier !')
+            await ctx.send('❌ Input must be an integer!')
         else:
             if str(ctx.channel) == 'bot':
                 limit = int(limit) + 1
                 await ctx.channel.purge(limit=limit)
             else:
-                await ctx.send('❌ Cette commande ne peut être utilisée que dans le channel "bot" !')
+                await ctx.send('❌ This command can only be used in "bot" channel!')
     
-    @commands.command(brief='!help [catégorie/rien]', description="Afficher toutes les commandes ou les commandes d'une catégorie")
+    @commands.command(brief='!help [category/nothing]', description="Displays the help message")
     async def help(self, ctx, *c):
         if not c:
             await ctx.channel.purge(limit=1)
             temp = []
-            embed = discord.Embed(color=discord.Color.blue(), title='Listes des commandes')
+            embed = discord.Embed(color=discord.Color.blue(), title='Command list:')
             for x in self.bot.cogs:
                 for y in self.bot.get_cog(x).get_commands():
                     if not y.hidden:
@@ -48,15 +48,15 @@ class chat(commands.Cog):
             c = ''.join(c[:])
             if self.bot.get_cog(c):
                 await ctx.channel.purge(limit=1)
-                embed = discord.Embed(color=discord.Color.blue(), title=f'Commandes de la catégorie "{c}"')
+                embed = discord.Embed(color=discord.Color.blue(), title=f'"{c} category command list:"')
                 for x in self.bot.get_cog(c).get_commands():
                     if not x.hidden:
                         embed.add_field(name=f'**{x.brief} :**', value=f"{x.description}", inline=False)
                 await ctx.send(embed=embed)
             else:
-                await ctx.send("❌ Nom de catégorie invalide !")
+                await ctx.send("❌ Category name is invalid!")
         else:
-            await ctx.send("❌ Vous devez entrer seulement une catégorie !")
+            await ctx.send("❌ Input must contain only one argument!")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -79,16 +79,16 @@ class chat(commands.Cog):
                 member['xp'] += randint(5, 10)
             if member['xp'] > self.base_xp * (member['level']+1 * self.factor):
                 member['level'] += 1
-                await message.channel.send(f"🎉 {message.author.mention} a level up ! Il est maintenant niveau {member['level']}")
+                await message.channel.send(f"🎉 {message.author.mention} leveled up! He's now level {member['level']}")
         self.set_data(members)
         
 
-    @commands.command(brief='!xp', description='Afficher son niveau et son xp', aliases=['level', 'lvl', 'niveau', 'niv'])
+    @commands.command(brief='!xp', description="Displays the users's level and xp", aliases=['level', 'lvl', 'niveau', 'niv'])
     async def xp(self, ctx):
         members = self.get_data()
         for member in members:
             if ctx.author.id == member['id']:
-                await ctx.send(f"🎚️ Tu es niveau {member['level']} ({member['xp']}/{self.base_xp * (member['level']+1 * self.factor)})")
+                await ctx.send(f"🎚️ You're level {member['level']} ({member['xp']}/{self.base_xp * (member['level']+1 * self.factor)})")
 
 def setup(bot):
     bot.add_cog(chat(bot))
