@@ -47,7 +47,8 @@ class Music(commands.Cog):
                 source = info['entries'][0]['formats'][0]['url']
                 uploader = info['entries'][0]['uploader']
                 uploader_url = info['entries'][0]['channel_url']
-                duration = self.parse_duration(info['entries'][0]['duration'])
+                duration = info['entries'][0]['duration']
+                parsed_duration = self.parse_duration(duration)
                 thumbnail = info['entries'][0]['thumbnail']
         else:
             arg = "".join(arg[:])
@@ -58,17 +59,18 @@ class Music(commands.Cog):
                 source = info['formats'][0]['url']
                 uploader = info['uploader']
                 uploader_url = info['channel_url']
-                duration = self.parse_duration(info['duration'])
+                duration = info['duration']
+                parsed_duration = self.parse_duration(duration)
                 thumbnail = info['thumbnail']
             
         embed = (discord.Embed(title='🎵 Now playing :', description=f'{title}', color=discord.Color.blue())
-                 .add_field(name='Duration', value=duration)
+                 .add_field(name='Duration', value=parsed_duration)
                  .add_field(name='Requested by', value=ctx.message.author.display_name)
                  .add_field(name='Uploader', value=f'[{uploader}]({uploader_url})')
                  .add_field(name='URL', value=f'[Lien vers la vidéo]({url})')
                  .set_thumbnail(url=thumbnail))
         
-        return {'embed': embed, 'source': source, 'title': title}
+        return {'embed': embed, 'source': source, 'title': title, 'duration': duration}
 
     @commands.command(aliases=['p'], brief='!play [url/key-word]', description='Plays the desired song')
     async def play(self, ctx, *arg):
@@ -80,7 +82,6 @@ class Music(commands.Cog):
             if voice and voice.is_connected():
                 await voice.move_to(channel)
             else:
-                await ctx.send(f':microphone2: Connexion au channel **{channel}**')
                 voice = await channel.connect()
 
             def play_next(ctx):
@@ -88,7 +89,7 @@ class Music(commands.Cog):
                 if len(self.song_queue) >= 1:
                     voice = get(self.bot.voice_clients, guild=ctx.guild)
                     voice.play(discord.FFmpegPCMAudio(self.song_queue[0]['source'], **self.FFMPEG_OPTIONS), after=lambda e: play_next(ctx))
-                    asyncio.run_coroutine_threadsafe(ctx.send(embed=self.song_queue[0]['embed']), self.bot.loop).result()
+                    asyncio.run_coroutine_threadsafe(ctx.send(embed=self.song_queue[0]['embed'], delete_after=self.song_queue[0]['duration']), self.bot.loop).result()
                 else:
                     time.sleep(90)
                     voice = get(self.bot.voice_clients, guild=ctx.guild)
@@ -99,7 +100,7 @@ class Music(commands.Cog):
             if not voice.is_playing():
                 self.song_queue.append(song)
                 voice.play(discord.FFmpegPCMAudio(song['source'], **self.FFMPEG_OPTIONS), after=lambda e: play_next(ctx))
-                await ctx.send(embed=song['embed'])
+                await ctx.send(embed=song['embed'], delete_after=song['duration'])
                 voice.is_playing()
             else:
                 self.song_queue.append(song)
