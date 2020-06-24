@@ -17,5 +17,5 @@ Libraries' version :
 - wheel → 0.34.2
 - FFmpeg → 4.2.3
 
-NB : This bot doesn't download any video<br>
-     Add FFmpeg to path when you download it (https://www.youtube.com/watch?v=a_KqycyErd8)
+This bot doesn't download any video.
+Add FFmpeg to path when you download it (https://www.youtube.com/watch?v=a_KqycyErd8).
