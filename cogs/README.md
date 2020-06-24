@@ -5,7 +5,7 @@ All the current bot's commands:
 !help [category/blank] → shows an help message<br>
 !xp → shows your level and xp
 
-- JDR :<br>
+- RPG :<br>
 !roll [x] → simulates a dice roll<br>
 
 - Random :<br>
