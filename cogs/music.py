@@ -30,9 +30,9 @@ class Music(commands.Cog):
             info = ydl.extract_info(f"ytsearch:{arg}", download=False)['entries'][0]
             
         embed = (discord.Embed(title='🎵 Musique en cours :', description=f"{info['title']}", color=discord.Color.blue())
-                 .add_field(name='Durée', value=Music.parse_duration(info['duration']))
-                 .add_field(name='Démandée par', value=author)
-                 .add_field(name='Auteur', value=f"[{info['uploader']}]({info['channel_url']})")
+                 .add_field(name='Duration', value=Music.parse_duration(info['duration']))
+                 .add_field(name='Requested by', value=author)
+                 .add_field(name='Uploader', value=f"[{info['uploader']}]({info['channel_url']})")
                  .add_field(name='URL', value=f"[Lien vers la vidéo]({info['webpage_url']})")
                  .set_thumbnail(url=info['thumbnail']))
         
@@ -48,7 +48,7 @@ class Music(commands.Cog):
         else:
             asyncio.run_coroutine_threadsafe(voice.disconnect(), self.bot.loop)
 
-    @commands.command(aliases=['p'], brief='!play [url/mots-clés]', description='Joue la musique demandée')
+    @commands.command(aliases=['p'], brief='!play [url/key-words]', description='Plays youtube videos')
     async def play(self, ctx, *arg):
         channel = ctx.message.author.voice.channel
         await ctx.channel.purge(limit=1)
@@ -68,7 +68,7 @@ class Music(commands.Cog):
                 voice.is_playing()
                 await ctx.send(embed=song['embed'], delete_after=song['duration'])
             else:
-                await ctx.send(f":white_check_mark: Musique **{song['title']}** ajoutée à la file d'attente ({len(self.song_queue)-1} en attente)", delete_after = self.song_queue[0]['duration'])
+                await ctx.send(f":white_check_mark: Musique **{song['title']}** added to queue ({len(self.song_queue)-1} to go)", delete_after = self.song_queue[0]['duration'])
         else:
             await ctx.send("❌ Tu n'es connecté à aucun channel !", delete_after = 5.0)
 
@@ -77,43 +77,43 @@ class Music(commands.Cog):
         channel = ctx.message.author.voice.channel
         await ctx.channel.purge(limit=1)
         voice = get(self.bot.voice_clients, guild=ctx.guild)
-        embed = discord.Embed(color=discord.Color.blue(), title="⏱️ Liste d'attente :")
+        embed = discord.Embed(color=discord.Color.blue(), title="⏱️ Queue:")
         if voice and voice.is_playing():
             for i in self.song_queue:
                 if self.song_queue.index(i) == 0:
-                    embed.add_field(name=f'**🔴 En cours :**', value=f"{i['title']}", inline=False)
+                    embed.add_field(name=f'**🔴 Now playing:**', value=f"{i['title']}", inline=False)
                 else:
                     embed.add_field(
                         name=f'**🎵 Track n°{self.song_queue.index(i)} :**', value=f"{i['title']}", inline=False)
             await ctx.send(embed=embed, delete_after = self.song_queue[0]['duration'])
         else:
-            await ctx.send("❌ Je ne joue aucune musique !", delete_after = 5.0)
+            await ctx.send("❌ I'm not playing anything!", delete_after = 5.0)
 
-    @commands.command(brief='!pause', description='Met en pause ou reprend la musique en cours de lecture')
+    @commands.command(brief='!pause', description='Pauses or resumes the current song')
     async def pause(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         channel = ctx.message.author.voice.channel
         await ctx.channel.purge(limit=1)
         if voice and voice.is_connected():
             if voice.is_playing():
-                await ctx.send('⏸️ Musique en pause', delete_after = 5.0)
+                await ctx.send('⏸️ Music paused', delete_after = 5.0)
                 voice.pause()
             else:
-                await ctx.send('⏯️ Reprise de la musique', delete_after = 5.0)
+                await ctx.send('⏯️ Music resumed', delete_after = 5.0)
                 voice.resume()
         else:
-            await ctx.send("❌ Je ne suis connecté à aucun channel !", delete_after = 5.0)
+            await ctx.send("❌ I'm not connected to any channel!", delete_after = 5.0)
 
-    @commands.command(aliases=['s', 'pass'], brief='!skip', description='Skip la musique en cours')
+    @commands.command(aliases=['s', 'pass'], brief='!skip', description='Skips the current song')
     async def skip(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         channel = ctx.message.author.voice.channel
         await ctx.channel.purge(limit=1)
         if voice and voice.is_playing():
-            await ctx.send('⏭️ Music skippée', delete_after = 5.0)
+            await ctx.send('⏭️ Music skipped', delete_after = 5.0)
             voice.stop()
         else:
-            await ctx.send("❌ Je ne joue aucune musique !", delete_after = 5.0)
+            await ctx.send("❌ I'm not playing anything!", delete_after = 5.0)
 
 def setup(bot):
     bot.add_cog(Music(bot))
